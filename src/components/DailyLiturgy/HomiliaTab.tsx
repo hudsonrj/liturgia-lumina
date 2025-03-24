@@ -5,7 +5,7 @@ import { LiturgicalData } from '../../services/liturgicalService';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { RefreshCw, VolumeIcon, VolumeX } from 'lucide-react';
-import { toast } from '@/components/ui/sonner';
+import { toast } from '@/lib/toast';
 
 interface HomiliaTabProps {
   liturgicalData: LiturgicalData;

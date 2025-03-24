@@ -8,6 +8,7 @@ import { useLiturgicalData } from '../hooks/useLiturgicalData';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpenText, CalendarDays } from 'lucide-react';
+import { getLiturgyColorClass } from '../services/liturgicalService';
 
 gsap.registerPlugin(ScrollTrigger);
 

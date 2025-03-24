@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAIServices } from '../../hooks/useAIServices';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Info, RefreshCw, VolumeIcon } from 'lucide-react';
-import { toast } from '@/components/ui/sonner';
+import { toast } from '@/lib/toast';
 
 interface SaintsTabProps {
   saints: string[];

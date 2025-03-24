@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Book, Info, VolumeIcon } from 'lucide-react';
-import { toast } from '@/components/ui/sonner';
+import { toast } from '@/lib/toast';
 
 interface ReadingsTabProps {
   liturgicalData: LiturgicalData;
@@ -92,7 +92,7 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
                 {getActiveReading('first')?.referencia}
               </CardTitle>
               <CardDescription>
-                {getActiveReading('first')?.titulo}
+                {"titulo" in getActiveReading('first') ? getActiveReading('first').titulo : ""}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -132,7 +132,7 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
                 {getActiveReading('psalm')?.referencia}
               </CardTitle>
               <CardDescription className="font-medium text-liturgy-purple italic">
-                "{getActiveReading('psalm')?.refrao}"
+                {"refrao" in getActiveReading('psalm') ? getActiveReading('psalm').refrao : ""}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -173,7 +173,7 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
                   {getActiveReading('second')?.referencia}
                 </CardTitle>
                 <CardDescription>
-                  {getActiveReading('second')?.titulo}
+                  {"titulo" in getActiveReading('second') ? getActiveReading('second').titulo : ""}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -214,7 +214,7 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
                 {getActiveReading('gospel')?.referencia}
               </CardTitle>
               <CardDescription>
-                {getActiveReading('gospel')?.titulo}
+                {"titulo" in getActiveReading('gospel') ? getActiveReading('gospel').titulo : ""}
               </CardDescription>
             </CardHeader>
             <CardContent>
