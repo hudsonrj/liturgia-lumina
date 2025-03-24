@@ -46,15 +46,15 @@ const DailyLiturgyView: React.FC<DailyLiturgyViewProps> = ({
       <div className="mb-8 text-center">
         <div className="mb-2">
           <span 
-            className={`inline-block px-3 py-1 rounded-full text-sm ${getLiturgyColorClass(liturgicalData.cor)}`}
+            className={`inline-block px-3 py-1 rounded-full text-base md:text-lg ${getLiturgyColorClass(liturgicalData.cor)}`}
           >
             {liturgicalData.cor}
           </span>
         </div>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif text-liturgy-burgundy mb-2">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-title text-liturgy-burgundy mb-2">
           {liturgicalData.liturgia}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 font-handwriting text-xl md:text-2xl">
           {formatDateLong(selectedDate)}
         </p>
       </div>
@@ -62,10 +62,10 @@ const DailyLiturgyView: React.FC<DailyLiturgyViewProps> = ({
       {/* Main content tabs */}
       <Tabs defaultValue="readings" className="w-full">
         <TabsList className="w-full mb-8 grid grid-cols-4 bg-liturgy-parchment">
-          <TabsTrigger value="readings" className="font-serif">Leituras</TabsTrigger>
-          <TabsTrigger value="homilia" className="font-serif">Homilia</TabsTrigger>
-          <TabsTrigger value="notes" className="font-serif">Anotações</TabsTrigger>
-          <TabsTrigger value="saints" className="font-serif">Santos</TabsTrigger>
+          <TabsTrigger value="readings" className="font-handwriting text-lg md:text-xl">Leituras</TabsTrigger>
+          <TabsTrigger value="homilia" className="font-handwriting text-lg md:text-xl">Homilia</TabsTrigger>
+          <TabsTrigger value="notes" className="font-handwriting text-lg md:text-xl">Anotações</TabsTrigger>
+          <TabsTrigger value="saints" className="font-handwriting text-lg md:text-xl">Santos</TabsTrigger>
         </TabsList>
         
         <TabsContent value="readings">
