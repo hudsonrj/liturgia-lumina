@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Satisfy&family=Caveat:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -75,11 +76,19 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-script;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-wide;
+  }
+  
+  p, span, div {
+    @apply font-script text-base md:text-lg lg:text-xl;
+  }
+  
+  button, a {
+    @apply font-script;
   }
 }
 
@@ -93,15 +102,15 @@
   }
   
   .liturgy-heading {
-    @apply font-serif text-3xl md:text-4xl lg:text-5xl font-semibold tracking-wide text-liturgy-burgundy mb-6;
+    @apply font-title text-3xl md:text-4xl lg:text-5xl font-semibold tracking-wide text-liturgy-burgundy mb-6;
   }
   
   .liturgy-subheading {
-    @apply font-serif text-xl md:text-2xl font-medium tracking-wide text-liturgy-purple mb-4;
+    @apply font-script text-xl md:text-2xl font-medium tracking-wide text-liturgy-purple mb-4;
   }
   
   .liturgy-text {
-    @apply font-body text-base md:text-lg leading-relaxed text-gray-800;
+    @apply font-script text-lg md:text-xl leading-relaxed text-gray-800;
   }
   
   .calendar-day {
@@ -117,7 +126,7 @@
   }
   
   .liturgy-tab {
-    @apply px-4 py-2 font-serif tracking-wide transition-all border-b-2 border-transparent;
+    @apply px-4 py-2 font-script tracking-wide transition-all border-b-2 border-transparent;
   }
   
   .liturgy-tab-active {

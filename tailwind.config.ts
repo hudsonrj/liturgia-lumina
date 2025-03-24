@@ -81,7 +81,10 @@ export default {
 			fontFamily: {
 				serif: ['Cinzel', 'serif'],
 				sans: ['Cormorant Garamond', 'serif'],
-				body: ['Cormorant Garamond', 'serif']
+				body: ['Cormorant Garamond', 'serif'],
+				script: ['Kalam', 'Dancing Script', 'cursive'],
+				title: ['Satisfy', 'cursive'],
+				handwriting: ['Caveat', 'cursive']
 			},
 			keyframes: {
 				'accordion-down': {
