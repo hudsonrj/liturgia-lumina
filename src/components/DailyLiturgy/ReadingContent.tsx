@@ -17,38 +17,29 @@ const ReadingContent: React.FC<ReadingContentProps> = ({
   
   return (
     <div className="liturgy-text">
-      {isExpanded ? (
-        // Show full text
-        paragraphs.map((paragraph, i) => (
-          <p key={i} className="mb-4 font-script">{paragraph}</p>
-        ))
-      ) : (
-        // Show only the first 2 paragraphs or less
-        <>
-          {paragraphs.slice(0, Math.min(2, paragraphs.length)).map((paragraph, i) => (
-            <p key={i} className="mb-4 font-script">{paragraph}</p>
-          ))}
-          {paragraphs.length > 2 && (
-            <div className="text-center mt-2">
-              <Button 
-                variant="link" 
-                onClick={onToggleExpansion}
-                className="font-handwriting text-liturgy-burgundy hover:text-liturgy-gold"
-              >
-                Ver leitura completa
-              </Button>
-            </div>
-          )}
-        </>
-      )}
+      {/* Sempre mostrar pelo menos os primeiros parágrafos */}
+      {paragraphs.slice(0, Math.min(2, paragraphs.length)).map((paragraph, i) => (
+        <p key={i} className="mb-4 font-handwriting text-lg">{paragraph}</p>
+      ))}
+      
+      {/* Mostrar parágrafos adicionais quando expandido */}
       {isExpanded && paragraphs.length > 2 && (
+        <div className="additional-paragraphs">
+          {paragraphs.slice(2).map((paragraph, i) => (
+            <p key={i + 2} className="mb-4 font-handwriting text-lg">{paragraph}</p>
+          ))}
+        </div>
+      )}
+      
+      {/* Botão de expandir/recolher */}
+      {paragraphs.length > 2 && (
         <div className="text-center mt-2">
           <Button 
             variant="link" 
             onClick={onToggleExpansion}
-            className="font-handwriting text-liturgy-burgundy hover:text-liturgy-gold"
+            className="font-handwriting text-lg text-liturgy-burgundy hover:text-liturgy-gold"
           >
-            Recolher leitura
+            {isExpanded ? "Recolher leitura" : "Ver leitura completa"}
           </Button>
         </div>
       )}

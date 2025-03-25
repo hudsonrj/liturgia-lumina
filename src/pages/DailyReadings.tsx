@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -8,38 +7,36 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { formatDateLong, getNextDay, getPreviousDay } from '../utils/dateUtils';
+import AITeacherChat from '../components/Chat/AITeacherChat';
 
 const DailyReadings = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const initialDate = location.state?.date ? new Date(location.state.date) : new Date();
   
-  const [selectedDate, setSelectedDate] = useState<Date>(initialDate);
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    location.state?.date ? new Date(location.state.date) : new Date()
+  );
+  
   const { data: liturgicalData, loading, error } = useLiturgicalData(selectedDate);
   
   const contentRef = useRef<HTMLDivElement>(null);
   
-  // Navigate to previous day
   const handlePreviousDay = () => {
     setSelectedDate(prevDate => getPreviousDay(prevDate));
   };
   
-  // Navigate to next day
   const handleNextDay = () => {
     setSelectedDate(prevDate => getNextDay(prevDate));
   };
   
-  // Navigate back to home
   const handleBackToHome = () => {
     navigate('/');
   };
   
-  // Navigate to calendar view
   const handleOpenCalendar = () => {
     navigate('/', { state: { openCalendar: true } });
   };
   
-  // Animation when liturgical data changes
   useEffect(() => {
     if (contentRef.current) {
       gsap.fromTo(
@@ -50,7 +47,6 @@ const DailyReadings = () => {
     }
   }, [liturgicalData]);
   
-  // Initialize page animations
   useEffect(() => {
     const tl = gsap.timeline();
     
@@ -79,11 +75,35 @@ const DailyReadings = () => {
       }, "-=0.2");
     }
     
-    // Cleanup
     return () => {
       tl.kill();
     };
   }, []);
+  
+  const getLiturgicalContext = () => {
+    if (!liturgicalData) return '';
+    
+    const context = [
+      `Data: ${formatDateLong(selectedDate)}`,
+      `Dia Litúrgico: ${liturgicalData.liturgia}`,
+      `Cor: ${liturgicalData.cor}`,
+    ];
+    
+    if (liturgicalData.leituras?.primeiraLeitura?.[0]) {
+      context.push(`Primeira Leitura: ${liturgicalData.leituras.primeiraLeitura[0].referencia}`);
+    }
+    if (liturgicalData.leituras?.salmo?.[0]) {
+      context.push(`Salmo: ${liturgicalData.leituras.salmo[0].referencia}`);
+    }
+    if (liturgicalData.leituras?.segundaLeitura?.[0]) {
+      context.push(`Segunda Leitura: ${liturgicalData.leituras.segundaLeitura[0].referencia}`);
+    }
+    if (liturgicalData.leituras?.evangelho?.[0]) {
+      context.push(`Evangelho: ${liturgicalData.leituras.evangelho[0].referencia}`);
+    }
+    
+    return context.join(', ');
+  };
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-8 px-4">
@@ -149,13 +169,13 @@ const DailyReadings = () => {
               <h2 className="text-xl text-red-500 mb-4">
                 Erro ao carregar os dados litúrgicos
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-6 font-handwriting text-lg">
                 Não foi possível carregar as leituras para {formatDateLong(selectedDate)}.
                 Por favor, tente novamente mais tarde.
               </p>
               <Button
                 onClick={handleBackToHome}
-                className="bg-liturgy-burgundy hover:bg-liturgy-burgundy/90 text-white"
+                className="bg-liturgy-burgundy hover:bg-liturgy-burgundy/90 text-white font-handwriting"
               >
                 Voltar para a Página Inicial
               </Button>
@@ -167,13 +187,15 @@ const DailyReadings = () => {
             />
           ) : (
             <div className="max-w-4xl mx-auto bg-white rounded-lg p-6 text-center">
-              <p className="text-gray-600">
+              <p className="text-gray-600 font-handwriting text-lg">
                 Não foram encontradas leituras para esta data.
               </p>
             </div>
           )}
         </div>
       </div>
+      
+      <AITeacherChat liturgicalContext={liturgicalData ? getLiturgicalContext() : ''} />
     </div>
   );
 };

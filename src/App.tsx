@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import DailyReadings from "./pages/DailyReadings";
+import FaithExamples from "./pages/FaithExamples";
 import NotFound from "./pages/NotFound";
 
 // Initialize GSAP for better performance
@@ -25,6 +26,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/daily-readings" element={<DailyReadings />} />
+          <Route path="/faith-examples" element={<FaithExamples />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
