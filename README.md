@@ -34,6 +34,9 @@ npm i
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
+
+# For a production build (for example when deploying to Cloud Run) use:
+npm start
 ```
 
 **Edit a file directly in GitHub**
