@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LiturgicalCalendar from '../components/Calendar/LiturgicalCalendar';
@@ -16,6 +16,7 @@ const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const { data: liturgicalData, loading, error } = useLiturgicalData(selectedDate);
   const navigate = useNavigate();
+  const location = useLocation();
   
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -31,6 +32,20 @@ const Index = () => {
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
   };
+
+  // When coming from another page, optionally focus calendar or set date
+  useEffect(() => {
+    if (location.state?.date) {
+      const date = new Date(location.state.date);
+      if (!isNaN(date.getTime())) {
+        setSelectedDate(date);
+      }
+    }
+
+    if (location.state?.openCalendar && calendarRef.current) {
+      calendarRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location.state]);
   
   // Initialize animations
   useEffect(() => {
