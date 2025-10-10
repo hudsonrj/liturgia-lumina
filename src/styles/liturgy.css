@@ -1,0 +1,66 @@
+/* Estilos para textos litúrgicos */
+.liturgy-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #1a1a1a;
+  white-space: pre-line;
+}
+
+.liturgy-text p {
+  margin-bottom: 1.5rem;
+}
+
+.liturgy-text h1,
+.liturgy-text h2,
+.liturgy-text h3 {
+  font-family: 'Cinzel', serif;
+  color: #722F37;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.liturgy-text h1 {
+  font-size: 2rem;
+}
+
+.liturgy-text h2 {
+  font-size: 1.5rem;
+}
+
+.liturgy-text h3 {
+  font-size: 1.25rem;
+}
+
+.liturgy-text blockquote {
+  font-style: italic;
+  border-left: 4px solid #722F37;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: #4a4a4a;
+}
+
+.liturgy-text strong {
+  color: #722F37;
+  font-weight: 600;
+}
+
+.liturgy-text em {
+  font-style: italic;
+  color: #4a4a4a;
+}
+
+/* Estilos específicos para referências bíblicas */
+.liturgy-text .bible-reference {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  color: #722F37;
+}
+
+/* Estilos para responsórios */
+.liturgy-text .response {
+  font-style: italic;
+  color: #722F37;
+  text-align: center;
+  margin: 1rem 0;
+} 

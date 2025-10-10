@@ -1,55 +1,75 @@
-
 import { format, addDays, subDays, parseISO, isToday, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
+// Função auxiliar para validar data
+const validateDate = (date: Date): Date => {
+  return date instanceof Date && !isNaN(date.getTime()) ? date : new Date();
+};
+
 // Format date to "dd/MM/yyyy"
 export const formatDateToBrazilian = (date: Date): string => {
-  return format(date, 'dd/MM/yyyy', { locale: ptBR });
+  const validDate = validateDate(date);
+  return format(validDate, 'dd/MM/yyyy', { locale: ptBR });
 };
 
 // Format date to "dd"
 export const formatDay = (date: Date): string => {
-  return format(date, 'dd', { locale: ptBR });
+  const validDate = validateDate(date);
+  return format(validDate, 'dd', { locale: ptBR });
 };
 
 // Format date to "MMM"
 export const formatMonth = (date: Date): string => {
-  return format(date, 'MMM', { locale: ptBR });
+  const validDate = validateDate(date);
+  return format(validDate, 'MMM', { locale: ptBR });
 };
 
 // Format date to "yyyy"
 export const formatYear = (date: Date): string => {
-  return format(date, 'yyyy', { locale: ptBR });
+  const validDate = validateDate(date);
+  return format(validDate, 'yyyy', { locale: ptBR });
 };
 
 // Format date to long format
 export const formatDateLong = (date: Date): string => {
-  return format(date, "d 'de' MMMM 'de' yyyy", { locale: ptBR });
+  const validDate = validateDate(date);
+  return format(validDate, "d 'de' MMMM 'de' yyyy", { locale: ptBR });
 };
 
 // Get the next day
 export const getNextDay = (date: Date): Date => {
-  return addDays(date, 1);
+  const validDate = validateDate(date);
+  return addDays(validDate, 1);
 };
 
 // Get the previous day
 export const getPreviousDay = (date: Date): Date => {
-  return subDays(date, 1);
+  const validDate = validateDate(date);
+  return subDays(validDate, 1);
 };
 
 // Check if a date is today
 export const isDateToday = (date: Date): boolean => {
-  return isToday(date);
+  const validDate = validateDate(date);
+  return isToday(validDate);
 };
 
 // Check if two dates are the same day
 export const isSameDayCheck = (date1: Date, date2: Date): boolean => {
-  return isSameDay(date1, date2);
+  const validDate1 = validateDate(date1);
+  const validDate2 = validateDate(date2);
+  return isSameDay(validDate1, validDate2);
 };
 
 // Parse a string to a Date object
 export const parseISODate = (dateString: string): Date => {
-  return parseISO(dateString);
+  try {
+    const parsedDate = parseISO(dateString);
+    return validateDate(parsedDate);
+  } catch (e) {
+    console.error('Erro ao fazer parse da data:', e);
+    return new Date();
+  }
 };
 
 // Get array of dates for the current month calendar view

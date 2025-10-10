@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -31,7 +30,7 @@ const ExplanationPanel: React.FC<ExplanationPanelProps> = ({
     <div className="mt-8 animate-fade-in bg-white/80 backdrop-blur-sm rounded-lg p-6 border border-liturgy-gold/20">
       <h3 className="text-xl font-title text-liturgy-burgundy mb-4">Explicação</h3>
       
-      <div className="space-y-4">
+      <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-4">
         <Collapsible>
           <CollapsibleTrigger asChild>
             <Button 

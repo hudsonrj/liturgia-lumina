@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Liturgia Lumina</string>
+    <string name="title_activity_main">Liturgia Lumina</string>
+    <string name="package_name">com.liturgialumina.app</string>
+    <string name="custom_url_scheme">com.liturgialumina.app</string>
+</resources>

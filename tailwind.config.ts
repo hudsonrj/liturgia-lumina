@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -130,6 +129,46 @@ export default {
 				'glow': {
 					'0%, 100%': { boxShadow: '0 0 5px rgba(212, 175, 55, 0.3)' },
 					'50%': { boxShadow: '0 0 20px rgba(212, 175, 55, 0.6)' }
+				},
+				'first': {
+					'0%, 100%': {
+						transform: 'translate(-50%, -50%) rotate(0deg)',
+					},
+					'50%': {
+						transform: 'translate(-50%, -50%) rotate(180deg)',
+					},
+				},
+				'second': {
+					'0%, 100%': {
+						transform: 'translate(-50%, -50%) rotate(0deg)',
+					},
+					'50%': {
+						transform: 'translate(-50%, -50%) rotate(180deg)',
+					},
+				},
+				'third': {
+					'0%, 100%': {
+						transform: 'translate(-50%, -50%) rotate(0deg)',
+					},
+					'50%': {
+						transform: 'translate(-50%, -50%) rotate(180deg)',
+					},
+				},
+				'fourth': {
+					'0%, 100%': {
+						transform: 'translate(-50%, -50%) rotate(0deg)',
+					},
+					'50%': {
+						transform: 'translate(-50%, -50%) rotate(180deg)',
+					},
+				},
+				'fifth': {
+					'0%, 100%': {
+						transform: 'translate(-50%, -50%) rotate(0deg)',
+					},
+					'50%': {
+						transform: 'translate(-50%, -50%) rotate(180deg)',
+					},
 				}
 			},
 			animation: {
@@ -145,7 +184,12 @@ export default {
 				'float': 'float 3s ease-in-out infinite',
 				'glow': 'glow 2s ease-in-out infinite',
 				'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
-				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out'
+				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out',
+				'first': 'first 40s linear infinite',
+				'second': 'second 40s linear infinite',
+				'third': 'third 40s linear infinite',
+				'fourth': 'fourth 40s linear infinite',
+				'fifth': 'fifth 40s linear infinite'
 			}
 		}
 	},

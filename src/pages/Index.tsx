@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LiturgicalCalendar from '../components/Calendar/LiturgicalCalendar';
 import { useLiturgicalData } from '../hooks/useLiturgicalData';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpenText, CalendarDays } from 'lucide-react';
+import { BookOpenText, CalendarDays, Book } from 'lucide-react';
 import { getLiturgyColorClass } from '../services/liturgicalService';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +15,6 @@ const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const { data: liturgicalData, loading, error } = useLiturgicalData(selectedDate);
   const navigate = useNavigate();
-  const location = useLocation();
   
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -32,20 +30,6 @@ const Index = () => {
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
   };
-
-  // When coming from another page, optionally focus calendar or set date
-  useEffect(() => {
-    if (location.state?.date) {
-      const date = new Date(location.state.date);
-      if (!isNaN(date.getTime())) {
-        setSelectedDate(date);
-      }
-    }
-
-    if (location.state?.openCalendar && calendarRef.current) {
-      calendarRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [location.state]);
   
   // Initialize animations
   useEffect(() => {
@@ -171,14 +155,32 @@ const Index = () => {
           <p className="text-gray-600 mb-4">
             Explore a riqueza das leituras diárias e aprofunde sua compreensão da Palavra de Deus.
           </p>
-          <Button
-            onClick={handleViewReadings}
-            variant="outline"
-            className="border-liturgy-gold/50 text-liturgy-burgundy hover:bg-liturgy-gold/10"
-          >
-            <CalendarDays className="mr-2 h-4 w-4" />
-            Explorar Calendário Litúrgico
-          </Button>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button
+              onClick={handleViewReadings}
+              variant="outline"
+              className="border-liturgy-gold/50 text-liturgy-burgundy hover:bg-liturgy-gold/10"
+            >
+              <CalendarDays className="mr-2 h-4 w-4" />
+              Explorar Calendário Litúrgico
+            </Button>
+            <Button
+              onClick={() => navigate('/example-of-faith')}
+              variant="outline"
+              className="border-liturgy-gold/50 text-liturgy-burgundy hover:bg-liturgy-gold/10"
+            >
+              <BookOpenText className="mr-2 h-4 w-4" />
+              Exemplos de Fé
+            </Button>
+            <Button
+              onClick={() => navigate('/bible')}
+              variant="outline"
+              className="border-liturgy-gold/50 text-liturgy-burgundy hover:bg-liturgy-gold/10"
+            >
+              <Book className="mr-2 h-4 w-4" />
+              Bíblia Ave Maria
+            </Button>
+          </div>
         </div>
       </div>
     </div>

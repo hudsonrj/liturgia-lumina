@@ -1,6 +1,5 @@
-
 // The API key is provided in the app and should be handled securely
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || "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";
 
 // Types for AI responses
 export interface AIExplanationResponse {
@@ -66,15 +65,27 @@ export const generateReadingExplanation = async (
     
     // Parse the JSON from the response
     try {
+      // Try to extract JSON if content contains JSON-like structure
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const jsonStr = jsonMatch[0];
+        return JSON.parse(jsonStr);
+      }
+      // If no JSON structure found, try parsing the whole content
       return JSON.parse(content);
     } catch (e) {
+      console.error('Error parsing JSON response:', e);
       // If parsing fails, create a structured response manually
       return {
-        explanation: content.split('practicalEffects')[0] || content,
+        explanation: content.includes('explanation') 
+          ? content.split('explanation')[1].split('practicalEffects')[0].replace(/[":{}]/g, '').trim()
+          : content,
         practicalEffects: content.includes('practicalEffects') 
-          ? content.split('practicalEffects')[1].split('examples')[0] 
+          ? content.split('practicalEffects')[1].split('examples')[0].replace(/[":{}]/g, '').trim()
           : "Reflexão sobre como aplicar esta leitura na vida diária.",
-        examples: ["Exemplo de aplicação na vida diária.", "Exemplo de como praticar esta virtude.", "Exemplo de como evitar este pecado."]
+        examples: content.includes('examples') 
+          ? content.split('examples')[1].replace(/[":\[\]{}]/g, '').split(',').map(ex => ex.trim())
+          : ["Dedique um tempo para ler esta passagem novamente.", "Discuta esta passagem com um guia espiritual.", "Ore pedindo discernimento sobre esta leitura."]
       };
     }
   } catch (error) {
@@ -95,19 +106,28 @@ export const generateHomilia = async (
 ): Promise<AIHomiliaResponse> => {
   try {
     const prompt = `
-      Gere uma homilia completa e inspiradora para o Evangelho "${gospelReference}" (${liturgicalDay}):
+      Gere uma homilia em português brasileiro para o Evangelho "${gospelReference}" (${liturgicalDay}):
       
       "${gospelText}"
       
       A homilia deve incluir:
-      1. Uma introdução que capture a atenção
-      2. Explicação teológica profunda mas acessível
-      3. Aplicações práticas para a vida cristã
-      4. Exemplos concretos 
-      5. Uma conclusão poderosa que inspire à ação
+      1. Uma introdução que capture a atenção dos fiéis brasileiros
+      2. Explicação teológica profunda mas acessível ao público brasileiro
+      3. Aplicações práticas para a vida cristã no contexto brasileiro
+      4. Exemplos concretos do cotidiano brasileiro
+      5. Uma conclusão inspiradora que motive à ação
       
-      Use linguagem clara, inspiradora e acessível. Estruture sua resposta em JSON com os campos:
-      title (título da homilia), content (o corpo principal da homilia) e conclusion (a conclusão inspiradora).
+      Importante:
+      - Use linguagem pastoral brasileira
+      - Faça referências ao contexto social e cultural do Brasil
+      - Use expressões e exemplos familiares aos brasileiros
+      - Mantenha um tom acolhedor e próximo
+      - Evite anglicismos ou expressões estrangeiras
+      
+      Estruture sua resposta em JSON com os campos:
+      title (título da homilia em português), 
+      content (o corpo principal da homilia em português) e 
+      conclusion (a conclusão inspiradora em português).
     `;
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -119,6 +139,10 @@ export const generateHomilia = async (
       body: JSON.stringify({
         model: "llama3-70b-8192",
         messages: [
+          {
+            role: "system",
+            content: "Você é um padre brasileiro com vasta experiência em homilias. Seu objetivo é criar homilias profundas mas acessíveis, sempre em português brasileiro, usando referências culturais e exemplos do cotidiano brasileiro. Suas homilias devem ser inspiradoras e práticas, ajudando os fiéis a aplicarem a Palavra de Deus em suas vidas diárias no contexto brasileiro."
+          },
           {
             role: "user",
             content: prompt
@@ -138,15 +162,25 @@ export const generateHomilia = async (
     
     // Parse the JSON from the response
     try {
+      // Try to extract JSON if content contains JSON-like structure
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const jsonStr = jsonMatch[0];
+        return JSON.parse(jsonStr);
+      }
+      // If no JSON structure found, try parsing the whole content
       return JSON.parse(content);
     } catch (e) {
+      console.error('Error parsing JSON response:', e);
       // If parsing fails, create a structured response manually
       return {
         title: `Homilia para ${gospelReference}`,
-        content: content.split('conclusion')[0] || content,
+        content: content.includes('content') 
+          ? content.split('content')[1].split('conclusion')[0].replace(/[":{}]/g, '').trim()
+          : content.split('conclusion')[0] || content,
         conclusion: content.includes('conclusion') 
-          ? content.split('conclusion')[1] 
-          : "Levemos esta reflexão para nossa vida e que Deus nos abençoe."
+          ? content.split('conclusion')[1].replace(/[":{}]/g, '').trim()
+          : "Que esta reflexão nos ajude a viver melhor nossa fé no dia a dia. Que Deus nos abençoe."
       };
     }
   } catch (error) {
@@ -154,7 +188,7 @@ export const generateHomilia = async (
     return {
       title: `Homilia para ${gospelReference}`,
       content: "Não foi possível gerar uma homilia neste momento. Por favor, tente novamente mais tarde.",
-      conclusion: "Que Deus nos abençoe e nos guie em nossa jornada espiritual."
+      conclusion: "Que Deus nos abençoe e nos guie em nossa jornada de fé."
     };
   }
 };
@@ -202,16 +236,26 @@ export const generateSaintInfo = async (saintName: string): Promise<AISaintRespo
     
     // Parse the JSON from the response
     try {
+      // Try to extract JSON if content contains JSON-like structure
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const jsonStr = jsonMatch[0];
+        return JSON.parse(jsonStr);
+      }
+      // If no JSON structure found, try parsing the whole content
       return JSON.parse(content);
     } catch (e) {
+      console.error('Error parsing JSON response:', e);
       // If parsing fails, create a structured response manually
       return {
-        biography: content.split('teachings')[0] || content,
+        biography: content.includes('biography') 
+          ? content.split('biography')[1].split('teachings')[0].replace(/[":{}]/g, '').trim()
+          : content.split('teachings')[0] || content,
         teachings: content.includes('teachings') 
-          ? content.split('teachings')[1].split('relevanceToday')[0] 
+          ? content.split('teachings')[1].split('relevanceToday')[0].replace(/[":{}]/g, '').trim()
           : "Informações sobre os ensinamentos deste santo.",
         relevanceToday: content.includes('relevanceToday') 
-          ? content.split('relevanceToday')[1] 
+          ? content.split('relevanceToday')[1].replace(/[":{}]/g, '').trim()
           : "Reflexão sobre a relevância deste santo para os dias atuais."
       };
     }

@@ -1,8 +1,6 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LiturgicalData } from '../../services/liturgicalService';
 import { useAIServices } from '../../hooks/useAIServices';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/lib/toast';
 import ReadingCard from './ReadingCard';
 import ExplanationPanel from './ExplanationPanel';
@@ -45,6 +43,16 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
     }
   };
   
+  // Reset expanded state when liturgical data changes
+  useEffect(() => {
+    setExpandedReadings({
+      first: false,
+      psalm: false,
+      second: false,
+      gospel: false
+    });
+  }, [liturgicalData]);
+
   const handleExplainReading = async (type: 'first' | 'psalm' | 'second' | 'gospel') => {
     const reading = getActiveReading(type);
     if (!reading) return;
@@ -101,17 +109,9 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
   
   return (
     <div className="space-y-8">
-      <Tabs defaultValue="first" className="w-full">
-        <TabsList className="mb-6 grid grid-cols-4 bg-liturgy-parchment">
-          <TabsTrigger value="first" className="font-handwriting text-lg md:text-xl">1ª Leitura</TabsTrigger>
-          <TabsTrigger value="psalm" className="font-handwriting text-lg md:text-xl">Salmo</TabsTrigger>
-          {secondReadings.length > 0 && (
-            <TabsTrigger value="second" className="font-handwriting text-lg md:text-xl">2ª Leitura</TabsTrigger>
-          )}
-          <TabsTrigger value="gospel" className="font-handwriting text-lg md:text-xl">Evangelho</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="first">
+      <div className="flex flex-col gap-8">
+        <div className="relative">
+          <h2 className="font-handwriting text-2xl mb-4 text-liturgy-burgundy">Primeira Leitura</h2>
           <ReadingCard
             reading={getActiveReading('first')!}
             type="first"
@@ -122,9 +122,10 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
             isLoadingExplanation={loading.explanation}
             isLoadingSpeech={loading.speech}
           />
-        </TabsContent>
+        </div>
         
-        <TabsContent value="psalm">
+        <div className="relative">
+          <h2 className="font-handwriting text-2xl mb-4 text-liturgy-burgundy">Salmo</h2>
           <ReadingCard
             reading={getActiveReading('psalm')!}
             type="psalm"
@@ -135,10 +136,11 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
             isLoadingExplanation={loading.explanation}
             isLoadingSpeech={loading.speech}
           />
-        </TabsContent>
+        </div>
         
         {secondReadings.length > 0 && (
-          <TabsContent value="second">
+          <div className="relative">
+            <h2 className="font-handwriting text-2xl mb-4 text-liturgy-burgundy">Segunda Leitura</h2>
             <ReadingCard
               reading={getActiveReading('second')!}
               type="second"
@@ -149,10 +151,11 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
               isLoadingExplanation={loading.explanation}
               isLoadingSpeech={loading.speech}
             />
-          </TabsContent>
+          </div>
         )}
         
-        <TabsContent value="gospel">
+        <div className="relative">
+          <h2 className="font-handwriting text-2xl mb-4 text-liturgy-burgundy">Evangelho</h2>
           <ReadingCard
             reading={getActiveReading('gospel')!}
             type="gospel"
@@ -163,8 +166,8 @@ const ReadingsTab: React.FC<ReadingsTabProps> = ({ liturgicalData }) => {
             isLoadingExplanation={loading.explanation}
             isLoadingSpeech={loading.speech}
           />
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
       
       {explanation && (
         <ExplanationPanel
